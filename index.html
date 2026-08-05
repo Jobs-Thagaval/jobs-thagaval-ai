@@ -40,33 +40,14 @@ Upload Image
 </button>
   
 <input
-type="file"
-id="imageUpload"
-accept="image/*">
+    type="file"
+    id="notificationFile"
+    accept=".pdf,.png,.jpg,.jpeg"
+    onchange="previewFile()">
 
 <br><br>
 
-<img
-id="preview"
-style="display:none;
-max-width:300px;
-border-radius:12px;">
-<br><br>
-
-<button style="padding:15px;
-width:200px;
-font-size:18px;">
-Upload PDF
-</button>
-<input
-type="file"
-id="pdfUpload"
-accept=".pdf">
-
-<br><br>
-
-<p id="pdfName"></p>
-</div>
+<div id="previewArea"></div>
 
 <div style="background:white;
 padding:20px;
