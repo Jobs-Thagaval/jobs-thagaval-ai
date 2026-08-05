@@ -58,7 +58,14 @@ width:200px;
 font-size:18px;">
 Upload PDF
 </button>
+<input
+type="file"
+id="pdfUpload"
+accept=".pdf">
 
+<br><br>
+
+<p id="pdfName"></p>
 </div>
 
 <div style="background:white;
@@ -141,6 +148,24 @@ preview.style.display="block";
 });
 
 </script>
+const pdfUpload =
+document.getElementById("pdfUpload");
+
+const pdfName =
+document.getElementById("pdfName");
+
+pdfUpload.addEventListener("change", function(){
+
+const file = pdfUpload.files[0];
+
+if(file){
+
+pdfName.innerHTML =
+"📄 " + file.name + " uploaded successfully.";
+
+}
+
+});
 </body>
 
 </html>
