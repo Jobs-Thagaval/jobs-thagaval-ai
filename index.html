@@ -103,50 +103,55 @@ Continue →
 </button>
 
 </div>
-
-</div>
 <script>
+  function previewFile() {
 
-const upload =
-document.getElementById("imageUpload");
+    const fileInput = document.getElementById("notificationFile");
+    const previewArea = document.getElementById("previewArea");
 
-const preview =
-document.getElementById("preview");
+    previewArea.innerHTML = "";
 
-upload.addEventListener("change", function(){
+    const file = fileInput.files[0];
 
-const file = upload.files[0];
+    if (!file) return;
 
-if(file){
+    // IMAGE
+    if (file.type.startsWith("image/")) {
 
-preview.src =
-URL.createObjectURL(file);
+        const img = document.createElement("img");
 
-preview.style.display="block";
+        img.src = URL.createObjectURL(file);
+
+        img.style.maxWidth = "350px";
+        img.style.borderRadius = "12px";
+        img.style.marginTop = "20px";
+
+        previewArea.appendChild(img);
+
+    }
+
+    // PDF
+    else if (file.type === "application/pdf") {
+
+        previewArea.innerHTML =
+        "<div style='background:#FFF3CD;padding:20px;border-radius:10px;margin-top:20px;'>" +
+        "<h3>📄 PDF Uploaded Successfully</h3>" +
+        "<p><b>" + file.name + "</b></p>" +
+        "<p>Size : " + (file.size / 1024 / 1024).toFixed(2) + " MB</p>" +
+        "</div>";
+
+    }
+
+    // Unsupported file
+    else {
+
+        previewArea.innerHTML =
+        "<p style='color:red;font-weight:bold;'>Unsupported file type.</p>";
+
+    }
 
 }
-
-});
-
 </script>
-const pdfUpload =
-document.getElementById("pdfUpload");
-
-const pdfName =
-document.getElementById("pdfName");
-
-pdfUpload.addEventListener("change", function(){
-
-const file = pdfUpload.files[0];
-
-if(file){
-
-pdfName.innerHTML =
-"📄 " + file.name + " uploaded successfully.";
-
-}
-
-});
 </body>
 
 </html>
