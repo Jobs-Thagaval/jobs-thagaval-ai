@@ -106,31 +106,27 @@ Continue →
 
 </div>
 <script>
-  function previewFile() {
+  function previewFile(){
 
-    const fileInput = document.getElementById("notificationFile");
-    const previewArea = document.getElementById("previewArea");
+const input = document.getElementById("notificationFile");
 
-    previewArea.innerHTML = "";
+const file = input.files[0];
 
-    const file = fileInput.files[0];
+const continueBtn = document.getElementById("continueBtn");
 
     if (!file) return;
 
     // IMAGE
     if (file.type.startsWith("image/")) {
+   // your image/pdf preview code
 
-        const img = document.createElement("img");
+    continueBtn.disabled = false;
 
-        img.src = URL.createObjectURL(file);
+    continueBtn.style.background = "#0B5ED7";
 
-        img.style.maxWidth = "350px";
-        img.style.borderRadius = "12px";
-        img.style.marginTop = "20px";
+    continueBtn.style.cursor = "pointer";
 
-        previewArea.appendChild(img);
-
-    }
+}
 
     // PDF
     else if (file.type === "application/pdf") {
