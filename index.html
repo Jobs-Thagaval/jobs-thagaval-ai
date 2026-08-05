@@ -109,22 +109,27 @@ Continue →
   function previewFile(){
 
 const input = document.getElementById("notificationFile");
-
 const file = input.files[0];
-
 const continueBtn = document.getElementById("continueBtn");
-
+const previewArea = document.getElementById("previewArea");
+    
     if (!file) return;
+continueBtn.disabled = false;
+continueBtn.style.background = "#0B5ED7";
+continueBtn.style.cursor = "pointer";
+    
+   if (file.type.startsWith("image/")) {
 
-    // IMAGE
-    if (file.type.startsWith("image/")) {
-   // your image/pdf preview code
+    const img = document.createElement("img");
 
-    continueBtn.disabled = false;
+    img.src = URL.createObjectURL(file);
 
-    continueBtn.style.background = "#0B5ED7";
+    img.style.maxWidth = "350px";
+    img.style.borderRadius = "12px";
+    img.style.marginTop = "20px";
 
-    continueBtn.style.cursor = "pointer";
+    previewArea.innerHTML = "";
+    previewArea.appendChild(img);
 
 }
 
