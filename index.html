@@ -186,7 +186,9 @@ continueBtn.style.cursor = "pointer";
         document.getElementById("processingPanel");
 
     processingPanel.style.display = "block";
-    const response = await fetch(WEB_APP_URL);
+    const response = await fetch(WEB_APP_URL, {
+    method: "POST"
+});
 
 const result = await response.json();
 
