@@ -188,9 +188,9 @@ continueBtn.style.cursor = "pointer";
     processingPanel.style.display = "block";
     const response = await fetch(WEB_APP_URL);
 
-const result = await response.text();
+const result = await response.json();
 
-alert(result);
+alert(result.message);
     document.getElementById("step1").innerHTML =
     "⏳ Reading Notification";
     
