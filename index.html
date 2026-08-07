@@ -180,13 +180,17 @@ continueBtn.style.cursor = "pointer";
     }
 
 }
-  function startProcessing(){
+ async function startProcessing(){
 
     const processingPanel =
         document.getElementById("processingPanel");
 
     processingPanel.style.display = "block";
-    alert("Backend Connected Successfully!");
+    const response = await fetch(WEB_APP_URL);
+
+const result = await response.text();
+
+alert(result);
     document.getElementById("step1").innerHTML =
     "⏳ Reading Notification";
     
