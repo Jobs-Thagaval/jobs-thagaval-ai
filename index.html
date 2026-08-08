@@ -257,7 +257,16 @@ async function startProcessing() {
 
             console.log("Backend response:", result);
 
-            alert(result.message || "File received successfully.");
+            const aiResult =
+                document.getElementById("aiResult");
+
+            const resultContent =
+                document.getElementById("resultContent");
+
+            resultContent.innerText =
+                 result.message || "No result received from AI.";
+
+            aiResult.style.display = "block";
 
             document.getElementById("step1").innerHTML =
                 "⏳ Reading Notification";
