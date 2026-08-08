@@ -191,60 +191,54 @@ async function startProcessing() {
         document.getElementById("notificationFile").files[0];
 
     if (!file) {
-        alert("Please upload a notification first.");
+        alert("Please select a notification file first.");
         return;
     }
 
-    console.log("File:", file);
+    console.log("Selected file:", file.name);
     alert("Uploading: " + file.name);
 
     const reader = new FileReader();
 
     reader.onload = async function () {
 
-        console.log("File converted successfully.");
-
-        // Convert uploaded file into Base64
-        const base64Data =
-            reader.result.split(",")[1];
-
-        console.log("Base64 data received.");
-
-        const requestData = {
-
-            fileName: file.name,
-
-            mimeType: file.type,
-
-            fileData: base64Data,
-
-            prompt:
-                "Analyze this job notification and extract the company name, job title, qualification, experience, location, important dates, salary, application link and other important information."
-        };
-
-        console.log("Sending data to backend...");
-
         try {
+
+            console.log("File reading completed.");
+
+            const base64Data = reader.result.split(",")[1];
 
             const response = await fetch(WEB_APP_URL, {
 
                 method: "POST",
 
                 headers: {
-                    "Content-Type": "application/json"
+                    "Content-Type": "text/plain;charset=utf-8"
                 },
 
-                body: JSON.stringify(requestData)
+                body: JSON.stringify({
+
+                    fileName: file.name,
+
+                    mimeType: file.type,
+
+                    fileData: base64Data
+
+                })
 
             });
 
-            console.log("Backend response received.");
+            if (!response.ok) {
+                throw new Error(
+                    "Server returned HTTP " + response.status
+                );
+            }
 
             const result = await response.json();
 
-            console.log("Backend result:", result);
+            console.log("Backend response:", result);
 
-            alert(result.message || "Notification processed successfully.");
+            alert(result.message || "File received successfully.");
 
             document.getElementById("step1").innerHTML =
                 "⏳ Reading Notification";
@@ -265,6 +259,12 @@ async function startProcessing() {
             alert("Error: " + error.message);
 
         }
+
+    };
+
+    reader.onerror = function () {
+
+        alert("Unable to read the selected file.");
 
     };
 
