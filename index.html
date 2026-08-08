@@ -180,43 +180,95 @@ continueBtn.style.cursor = "pointer";
     }
 
 }
- async function startProcessing(){
+async function startProcessing() {
 
     const processingPanel =
         document.getElementById("processingPanel");
 
     processingPanel.style.display = "block";
-   const file =
-document.getElementById("notificationFile").files[0];
 
-console.log(file);
+    const file =
+        document.getElementById("notificationFile").files[0];
 
-alert(file.name);
-   const reader = new FileReader();
+    if (!file) {
+        alert("Please upload a notification first.");
+        return;
+    }
 
-reader.readAsDataURL(file);
+    console.log("File:", file);
+    alert("Uploading: " + file.name);
 
-reader.onload = function () {
+    const reader = new FileReader();
 
-    console.log(reader.result);
+    reader.onload = async function () {
 
-};
-    const response = await fetch(WEB_APP_URL, {
-    method: "POST"
-});
+        console.log("File converted successfully.");
 
-const result = await response.json();
+        // Convert uploaded file into Base64
+        const base64Data =
+            reader.result.split(",")[1];
 
-alert(result.message);
-    document.getElementById("step1").innerHTML =
-    "⏳ Reading Notification";
-    
-    setTimeout(function(){
+        console.log("Base64 data received.");
 
-        document.getElementById("step1").innerHTML =
-        "✅ Reading Notification";
+        const requestData = {
 
-    },1000);
+            fileName: file.name,
+
+            mimeType: file.type,
+
+            fileData: base64Data,
+
+            prompt:
+                "Analyze this job notification and extract the company name, job title, qualification, experience, location, important dates, salary, application link and other important information."
+        };
+
+        console.log("Sending data to backend...");
+
+        try {
+
+            const response = await fetch(WEB_APP_URL, {
+
+                method: "POST",
+
+                headers: {
+                    "Content-Type": "application/json"
+                },
+
+                body: JSON.stringify(requestData)
+
+            });
+
+            console.log("Backend response received.");
+
+            const result = await response.json();
+
+            console.log("Backend result:", result);
+
+            alert(result.message || "Notification processed successfully.");
+
+            document.getElementById("step1").innerHTML =
+                "⏳ Reading Notification";
+
+            setTimeout(function () {
+
+                document.getElementById("step1").innerHTML =
+                    "✅ Reading Notification";
+
+            }, 1000);
+
+        }
+
+        catch (error) {
+
+            console.error("Processing error:", error);
+
+            alert("Error: " + error.message);
+
+        }
+
+    };
+
+    reader.readAsDataURL(file);
 
 }
 </script>
